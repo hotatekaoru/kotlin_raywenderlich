@@ -4,4 +4,8 @@
     <string name="timeLeft">Time Left: %1$d</string>
     <string name="tapMe">Tap Me!</string>
     <string name="gameOverMessage">Times Up! Your Score was: %1$d</string>
+    <string name="aboutMenu">About</string>
+    <string name="aboutTitle">Time Fighter</string>
+    <string name="aboutMessage">Created by The Mighty Kotlin Developer</string>
+
 </resources>
