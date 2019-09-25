@@ -1,5 +1,6 @@
 package com.example.listmaker
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +17,10 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var listsRecyclerView: RecyclerView
     val listDataManeger: ListDataManeger = ListDataManeger(this)
+
+    companion object {
+        val INTENT_LIST_KEY = "list"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,5 +73,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         builder.create().show()
+    }
+
+    private fun showListDetail(list: TaskList) {
+        val listDetailIntent = Intent(this, ListDetailActivity::class.java)
+        listDetailIntent.putExtra(INTENT_LIST_KEY, list)
+        startActivity(listDetailIntent)
     }
 }
