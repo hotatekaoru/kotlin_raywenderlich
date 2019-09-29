@@ -13,13 +13,14 @@ import androidx.recyclerview.widget.RecyclerView
 
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ListSelectionRecyclerViewAdapter.ListSelectionRecyclerViewClickListener {
 
     lateinit var listsRecyclerView: RecyclerView
     val listDataManeger: ListDataManeger = ListDataManeger(this)
 
     companion object {
         val INTENT_LIST_KEY = "list"
+        val LIST_DETAIL_REQUEST_CODE = 123
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         val lists = listDataManeger.readLists()
         listsRecyclerView = findViewById<RecyclerView>(R.id.lists_recyclerview)
         listsRecyclerView.layoutManager = LinearLayoutManager(this)
-        listsRecyclerView.adapter = ListSelectionRecyclerViewAdapter(lists)
+        listsRecyclerView.adapter = ListSelectionRecyclerViewAdapter(lists, this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -69,7 +70,9 @@ class MainActivity : AppCompatActivity() {
             listDataManeger.saveList(list)
             val recyclerAdapter = listsRecyclerView.adapter as ListSelectionRecyclerViewAdapter
             recyclerAdapter.addList(list)
+
             dialog.dismiss()
+            showListDetail(list)
         }
 
         builder.create().show()
@@ -78,6 +81,25 @@ class MainActivity : AppCompatActivity() {
     private fun showListDetail(list: TaskList) {
         val listDetailIntent = Intent(this, ListDetailActivity::class.java)
         listDetailIntent.putExtra(INTENT_LIST_KEY, list)
-        startActivity(listDetailIntent)
+        startActivityForResult(listDetailIntent, LIST_DETAIL_REQUEST_CODE)
+    }
+
+    override fun listItemClicked(list: TaskList) {
+        showListDetail(list)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == LIST_DETAIL_REQUEST_CODE) {
+            data?.let {
+                listDataManeger.saveList(data.getParcelableExtra(INTENT_LIST_KEY))
+                updateLists()
+            }
+        }
+    }
+
+    private fun updateLists() {
+        val lists = listDataManeger.readLists()
+        listsRecyclerView.adapter = ListSelectionRecyclerViewAdapter(lists, this)
     }
 }
