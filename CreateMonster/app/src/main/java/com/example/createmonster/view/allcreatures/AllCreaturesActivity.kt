@@ -21,9 +21,12 @@ class AllCreaturesActivity: AppCompatActivity() {
         setContentView(R.layout.activity_all_creatures)
         setSupportActionBar(toolbar as Toolbar)
 
-        val creaturesRecyclerView = findViewById<RecyclerView>(R.id.creaturesRecyclerView)
         creaturesRecyclerView.layoutManager = LinearLayoutManager(this)
         creaturesRecyclerView.adapter = adapter
+
+        fab.setOnClickListener {
+            // TODO: モンスタークリック時の挙動
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
