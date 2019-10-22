@@ -6,9 +6,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import androidx.recyclerview.widget.RecyclerView
 import com.example.createmonster.R
+import com.example.createmonster.view.creature.CreatureActivity
 import kotlinx.android.synthetic.main.activity_all_creatures.*
 import kotlinx.android.synthetic.main.content_all_creatures.*
 
@@ -19,13 +18,14 @@ class AllCreaturesActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_all_creatures)
-        setSupportActionBar(toolbar as Toolbar)
+        setSupportActionBar(toolbar)
 
         creaturesRecyclerView.layoutManager = LinearLayoutManager(this)
         creaturesRecyclerView.adapter = adapter
 
         fab.setOnClickListener {
-            // TODO: モンスタークリック時の挙動
+            // TODO: View(Activity)からView(Activity)を呼び出していいのだろうか
+            startActivity(Intent(this, CreatureActivity::class.java))
         }
     }
 
