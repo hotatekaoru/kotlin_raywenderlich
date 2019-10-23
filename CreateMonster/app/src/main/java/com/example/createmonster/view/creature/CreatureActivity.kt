@@ -10,9 +10,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.createmonster.R
 import com.example.createmonster.model.AttributeStore
 import com.example.createmonster.model.AttributeValue
+import com.example.createmonster.model.Avatar
+import com.example.createmonster.view.avatars.AvatarAdapter
 import kotlinx.android.synthetic.main.activity_creature.*
 
-class CreatureActivity : AppCompatActivity() {
+class CreatureActivity : AppCompatActivity(), AvatarAdapter.AvatarListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +44,7 @@ class CreatureActivity : AppCompatActivity() {
     private fun configureSpinnerListeners() {
         intelligence.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                // TODO("not implemented")
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -50,7 +52,7 @@ class CreatureActivity : AppCompatActivity() {
 
         strength.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                // TODO("not implemented")
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -58,7 +60,7 @@ class CreatureActivity : AppCompatActivity() {
 
         endurance.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                // TODO("not implemented")
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -73,5 +75,13 @@ class CreatureActivity : AppCompatActivity() {
                 // TODO: handle text changed
             }
         })
+    }
+
+    override fun avatarClicked(avatar: Avatar) {
+        hideTapLabel()
+    }
+
+    private fun hideTapLabel() {
+        tapLabel.visibility = View.INVISIBLE
     }
 }
