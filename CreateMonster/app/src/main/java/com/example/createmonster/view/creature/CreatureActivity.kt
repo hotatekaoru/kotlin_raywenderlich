@@ -12,6 +12,7 @@ import com.example.createmonster.model.AttributeStore
 import com.example.createmonster.model.AttributeValue
 import com.example.createmonster.model.Avatar
 import com.example.createmonster.view.avatars.AvatarAdapter
+import com.example.createmonster.view.avatars.AvatarBottomDialogFragment
 import kotlinx.android.synthetic.main.activity_creature.*
 
 class CreatureActivity : AppCompatActivity(), AvatarAdapter.AvatarListener {
@@ -23,6 +24,7 @@ class CreatureActivity : AppCompatActivity(), AvatarAdapter.AvatarListener {
         configureSpinnerAdapters()
         configureSpinnerListeners()
         configureEditText()
+        configureClickListeners()
     }
 
     private fun configureUI() {
@@ -75,6 +77,14 @@ class CreatureActivity : AppCompatActivity(), AvatarAdapter.AvatarListener {
                 // TODO: handle text changed
             }
         })
+    }
+
+    private fun configureClickListeners() {
+        // TODO: TextとかListenerのような属性ではなく、部品のパーツでメソッド分けたい
+        avatarImageView.setOnClickListener {
+            val bottomDialogFragment = AvatarBottomDialogFragment.newInstance()
+            bottomDialogFragment.show(supportFragmentManager, "AvatarBottomDialogFragment")
+        }
     }
 
     override fun avatarClicked(avatar: Avatar) {
