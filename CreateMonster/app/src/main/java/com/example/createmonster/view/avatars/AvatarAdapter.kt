@@ -31,6 +31,10 @@ class AvatarAdapter(private val avatars: List<Avatar>, private val listener: Ava
             listener.avatarClicked(this.avatar)
         }
 
+        init {
+            itemView.setOnClickListener(this)
+        }
+
         fun bind(avatar: Avatar) {
             this.avatar = avatar
             val bitmap = BitmapFactory.decodeResource(imageView.context.resources, avatar.drawable)
