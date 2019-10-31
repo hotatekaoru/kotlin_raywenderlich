@@ -9,8 +9,10 @@ import com.example.createmonster.model.room.RoomRepository
 class CreatureViewModel(private val generator: CreatureGenerator = CreatureGenerator(),
                         private val repository: CreatureRepository = RoomRepository()) : ViewModel() {
     private val creatureLiveData = MutableLiveData<Creature>()
+    private val saveLiveData = MutableLiveData<Boolean>()
 
     fun getCreatureLiveData() : LiveData<Creature> = creatureLiveData
+    fun getSaveLiveData(): LiveData<Boolean> = saveLiveData
 
     var name = ""
     var intelligence = 0
@@ -43,18 +45,17 @@ class CreatureViewModel(private val generator: CreatureGenerator = CreatureGener
         updateCreature()
     }
 
-    fun saveCreature() : Boolean {
+    fun saveCreature() {
         return if (canSaveCreature()) {
             repository.saveCreature(creature)
-            true
+            saveLiveData.postValue(true)
         } else {
-            false
+            saveLiveData.postValue(false)
         }
     }
 
     fun canSaveCreature() : Boolean {
         return intelligence != 0 && strength != 0 && endurance != 0 &&
                 drawable != 0 && name.isNotEmpty()
-
     }
 }

@@ -8,9 +8,11 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.createmonster.R
+import com.example.createmonster.databinding.ActivityCreatureBinding
 import com.example.createmonster.model.AttributeStore
 import com.example.createmonster.model.AttributeType
 import com.example.createmonster.model.AttributeValue
@@ -23,12 +25,15 @@ import kotlinx.android.synthetic.main.activity_creature.*
 class CreatureActivity : AppCompatActivity(), AvatarAdapter.AvatarListener {
 
     private lateinit var viewModel: CreatureViewModel
+    lateinit var binding: ActivityCreatureBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_creature)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_creature)
 
         viewModel = ViewModelProviders.of(this).get(CreatureViewModel::class.java)
+        binding.viewmodel = viewModel
+
         configureUI()
         configureSpinnerAdapters()
         configureSpinnerListeners()
@@ -96,14 +101,16 @@ class CreatureActivity : AppCompatActivity(), AvatarAdapter.AvatarListener {
             bottomDialogFragment.show(supportFragmentManager, "AvatarBottomDialogFragment")
         }
 
-        saveButton.setOnClickListener {
-            if (viewModel.saveCreature()) {
-                Toast.makeText(this, getString(R.string.creature_saved), Toast.LENGTH_SHORT).show()
-                finish()
-            } else {
-                Toast.makeText(this, getString(R.string.error_saving_creature), Toast.LENGTH_SHORT).show()
+        viewModel.getSaveLiveData().observe(this, Observer { saved ->
+            saved?.let {
+                if (saved) {
+                    Toast.makeText(this, getString(R.string.creature_saved), Toast.LENGTH_SHORT).show()
+                    finish()
+                } else {
+                    Toast.makeText(this, getString(R.string.error_saving_creature), Toast.LENGTH_SHORT).show()
+                }
             }
-        }
+        })
     }
 
     private fun configureLiveDataObservers() {
